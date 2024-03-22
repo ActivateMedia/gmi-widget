@@ -209,7 +209,7 @@ let count = 1;
 
             if (couponCode !== '') userData.couponCode = couponCode;
 
-            let authURL = `https://api.dev.goodmorningitalia.it/auth?utm_referral=${widgetId}&utm_name=${nameOfHost}`;
+            let authURL = `https://api.stage.goodmorningitalia.it/auth?utm_referral=${widgetId}&utm_name=${nameOfHost}`;
 
             authURL += sanitizedUrl;
             utmSource = getUtmSource(sanitizedUrl);
@@ -318,7 +318,7 @@ document.head.appendChild(styleElement);
                 }
                 console.log("Calling widget api for widget id " + idOfWidget);
                 const widgetData = await fetch(
-                    `https://api.dev.goodmorningitalia.it/widget?widget_id=${idOfWidget}`,
+                    `https://api.stage.goodmorningitalia.it/widget?widget_id=${idOfWidget}`,
     
                     {
                         method: "GET",
