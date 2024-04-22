@@ -312,6 +312,7 @@ document.head.appendChild(styleElement);
         const window = event.target;        
         console.log(window, 'Window ------------->>>>>>>');  
         const elements = window.querySelectorAll('[data-widgetid]');
+        console.log(elements, 'Elements ------------->>>');
         for (const [i] of elements.entries()) {
             (async function (index) {
                 const element = elements[index];
