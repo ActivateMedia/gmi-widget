@@ -309,9 +309,10 @@ let count = 1;
             console.log(styleElement, 'Style Element ----------->>>');
 styleElement.innerHTML = styles;
 document.head.appendChild(styleElement);
-        const window = event.target;        
-        console.log(window, 'Window ------------->>>>>>>');  
-        const elements = window.querySelectorAll('[data-widgetid]');
+        const targetWindow = event.target;
+        console.log(targetWindow, 'Window ------------->>>>>>>');
+        const elements = targetWindow.querySelectorAll('[data-widgetid]');
+
         console.log(elements, 'Elements ------------->>>');
         for (const [i] of elements.entries()) {
             (async function (index) {
