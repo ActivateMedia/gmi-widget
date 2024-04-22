@@ -302,11 +302,17 @@ let count = 1;
         }
 
         window.onload = async (event) => {
+
+            console.log('Entered in widget func -------->>>>>>>>>>');
+;            console.log(event, 'Event logged ------------>>>');
             const styleElement = document.createElement('style');
+            console.log(styleElement, 'Style Element ----------->>>');
 styleElement.innerHTML = styles;
 document.head.appendChild(styleElement);
         const window = event.target;        
+        console.log(window, 'Window ------------->>>>>>>');  
         const elements = window.querySelectorAll('[data-widgetid]');
+        console.log(elements, 'Elements ------------->>>');
         for (const [i] of elements.entries()) {
             (async function (index) {
                 const element = elements[index];
