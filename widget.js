@@ -302,16 +302,8 @@ let count = 1;
         }
 
 
-        if (document.readyState === 'complete') {
-            console.log('DOM is fully loaded');
-          } else {
-            console.log('DOM is still loading');
-          }
-          document.addEventListener('DOMContentLoaded', async (event) => {
-            console.log('Entered in widget func -------->>>>>>>>>>DOMContentLoaded');
-        });
     
-    window.addEventListener('load', async (event) => {    
+        if (document.readyState === 'complete') { 
 
             console.log('Entered in widget func -------->>>>>>>>>>');
             console.log(event, 'Event logged ------------>>>');
@@ -407,4 +399,4 @@ document.head.appendChild(styleElement);
             })(i);
         }
                
-        });
+        }
