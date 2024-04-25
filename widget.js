@@ -301,10 +301,11 @@ let count = 1;
         document.getElementById("api-error-msg").innerHTML = ``;
         }
 
-        window.onload = async (event) => {
+
+        document.addEventListener('DOMContentLoaded', async (event) => {        
 
             console.log('Entered in widget func -------->>>>>>>>>>');
-;            console.log(event, 'Event logged ------------>>>');
+            console.log(event, 'Event logged ------------>>>');
             const styleElement = document.createElement('style');
             console.log(styleElement, 'Style Element ----------->>>');
 styleElement.innerHTML = styles;
@@ -397,4 +398,4 @@ document.head.appendChild(styleElement);
             })(i);
         }
                
-        };
+        });
