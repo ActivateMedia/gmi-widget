@@ -303,7 +303,9 @@ let count = 1;
 
 
     
-        if (document.readyState === 'complete') { 
+       /* if (document.readyState === 'complete') { */
+
+            window.onload = async (event) => {
 
             console.log('Entered in widget func -------->>>>>>>>>>');
             console.log(event, 'Event logged ------------>>>');
