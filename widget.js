@@ -305,6 +305,105 @@ let count = 1;
     
        /* if (document.readyState === 'complete') { */
 
+            document.addEventListener('DOMContentLoaded', function(event){
+                console.log('DOM is ready!');
+                console.log('Event type:', event.type);
+
+                console.log('Entered in widget func -------->>>>>>>>>>');
+                console.log(event, 'Event logged ------------>>>');
+                const styleElement = document.createElement('style');
+                console.log(styleElement, 'Style Element ----------->>>');
+    styleElement.innerHTML = styles;
+    document.head.appendChild(styleElement);
+            const targetWindow = event.target;
+            console.log(targetWindow, 'Window ------------->>>>>>>');
+            const elements = targetWindow.querySelectorAll('[data-widgetid]');
+
+            console.log(elements, 'Elements ------------->>>');
+            for (const [i] of elements.entries()) {
+                (async function (index) {
+                    const element = elements[index];
+                    const idOfWidget = elements[index].getAttribute('data-widgetid');
+                    const idOfForm = Number(elements[index].getAttribute('data-formid'));
+                    const statusObject = {
+                        "active": 1,
+                        "inactive": 0
+                    }
+                    console.log("Calling widget api for widget id " + idOfWidget);
+                    const widgetData = await fetch(
+                        `https://api.stage.goodmorningitalia.it/widget?widget_id=${idOfWidget}`,
+        
+                        {
+                            method: "GET",
+                            headers: {
+                                "Content-Type": "application/json",
+                                cert: 'admin',
+                                platform: 'ops'
+                            },
+                        }
+                    ).then(res => res.json()).then(result => {
+                        console.log("Call to widget api for widget id " + idOfWidget + " called successfully!");
+                        return result.data[0];
+                    });
+                    const widgetMeta = JSON.parse(widgetData.widget_meta);
+                    const statusOfWidget = statusObject[widgetData.status];
+                    const nameOption = statusObject[widgetMeta.should_name_mount];
+                    const surnameOption = statusObject[widgetMeta.should_surname_mount];
+                    const couponOption = statusObject[widgetMeta.should_coupon_mount];
+                    const hostName = widgetData.host_name;
+                    widgetInfo = {
+                        widgetID: idOfWidget,
+                        hostName,
+                    }
+            let formHtml = `<div id="first-modal" class="first-modal" style="display:block;"><div class="form-trial w-form">
+            <form id="wf-form-Trial-form" name="wf-form-Trial-form" data-name="Trial form" method="post" class="formformform" aria-label="Trial form">
+                <div class="grid-1-1 form">
+                    <input type="text" class="campo w-input input-name" maxlength="256" name="Name-form" data-name="Name form" placeholder="Nome..." id="name" onChange="handleChange(event)" required>                
+                    <input type="text" class="campo w-node-_6e48be95-97ba-b3f5-451e-82c491c607da-91c607d6 w-input input-surname" maxlength="256" name="Cognome-form" data-name="Cognome form"  onChange="handleChange(event)" placeholder="Cognome..." id="surname" required>
+                </div>      
+                `;
+
+
+            let isCouponForm = couponOption ? `<div class="form">
+                    <input type="email" onChange="handleChange(event)" class="campo w-input input-email" maxlength="256" name="Mail-form" data-name="Mail form" placeholder="La tua email..." id="email" required>               
+                </div>
+                <div class="grid-2-1">
+                    <input type="text"  onChange="handleChange(event)" class="campo w-input input-coupon" maxlength="256" name="coupon" data-name="coupon" placeholder="Codice coupon" id="coupon" data-id="${idOfWidget}" data-count="${idOfForm}" required>
+                    <div id="w-node" class="submit-flex" onclick="handleButton(${nameOption}, ${surnameOption}, ${couponOption}, ${idOfForm}, '${idOfWidget}')">
+                    <button type='button' data-wait="Un istante..." id="free-trial" class="btn-sub submit test w-button">
+                    <div class="spinner-border" id="spinner" style="width: 24px; height: 24px; border-width: 0.2em; border-style: solid; border-color: currentColor; border-top-color: transparent; border-radius: 50%; margin-right: 0.5em; animation: spinner-border 0.6s linear infinite; display: none"></div>
+                    <span class="button-text">Provalo ora</span>
+                </button>
+                        <div class="postilla">Unisciti a migliaia di lettori soddisfatti</div></div>
+                    </div>
+                </form>           
+                <div id="api-error-msg" class="api-err" style="margin-bottom: 1em; display:none"></div>
+                <p>Sei già registrato? <a href="https://app.goodmorningitalia.it/login"><b>Fai il login qui</b></a></p>
+                </div>
+                </div>
+                <div id="second-modal" class="second-modal"></div>`:`<div class="grid-2-1">
+                    <input type="email" class="campo w-input input-email" maxlength="256" name="Mail-form" data-name="Mail form" placeholder="La tua email..." id="email" onChange="handleChange(event)" required>
+                    <div id="w-node" class="submit-flex" onclick="handleButton(${nameOption}, ${surnameOption}, ${couponOption}, ${idOfForm}, '${idOfWidget}')">
+                        <button type='button' data-wait="Un istante..." id="free-trial" class="btn-sub submit test w-button">
+                        <div class="spinner-border" id="spinner" style="width: 24px; height: 24px; border-width: 0.2em; border-style: solid; border-color: currentColor; border-top-color: transparent; border-radius: 50%; margin-right: 0.5em; animation: spinner-border 0.6s linear infinite; display: none"></div>
+                        <span class="button-text">Provalo ora</span>
+                    </button>
+                        <div class="postilla">Unisciti a migliaia di lettori soddisfatti</div></div>
+                    </div>
+                    </form>           
+                    <div id="api-error-msg" class="api-err" style="margin-bottom: 1em; display:none"></div>
+                    <p>Sei già registrato? <a href="https://app.goodmorningitalia.it/login"><b>Fai il login qui</b></a></p>
+                </div>
+                </div>
+                <div id="second-modal" class="second-modal"></div>`;
+
+            formHtml += isCouponForm;  
+
+            element.innerHTML = statusOfWidget ? formHtml : '';        
+                })(i);
+            }
+            });
+            /*
             window.onload = async (event) => {
 
             console.log('Entered in widget func -------->>>>>>>>>>');
@@ -401,4 +500,4 @@ document.head.appendChild(styleElement);
             })(i);
         }
                
-        }
+        }*/
